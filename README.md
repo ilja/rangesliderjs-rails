@@ -24,11 +24,11 @@ Or install it yourself as:
 In your application.js, include the following:
 
 ```javascript
-//= require rangesliderjs
+//= require rangeslider
 ```
 
 In your application.css, include the following:
 
 ```css
-*= require rangesliderjs
+*= require rangeslider
 ```
