@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{rangeslider.js packaged for the rails assets pipeline.}
   spec.description   = %q{Simple, small and fast JavaScript/jQuery polyfill for the HTML5 <input type="range"> slider element.}
-  spec.homepage      = "https://github.com/ilja/rangesliderjs-rails."
+  spec.homepage      = "https://github.com/ilja/rangesliderjs-rails"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
