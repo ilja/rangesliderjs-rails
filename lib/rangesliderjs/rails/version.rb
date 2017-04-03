@@ -1,5 +1,5 @@
 module Rangesliderjs
   module Rails
-    VERSION = "2.0.5"
+    VERSION = "2.3.0"
   end
 end

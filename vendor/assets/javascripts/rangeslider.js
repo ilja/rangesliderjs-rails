@@ -1,4 +1,4 @@
-/*! rangeslider.js - v2.0.5 | (c) 2015 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
+/*! rangeslider.js - v2.3.0 | (c) 2016 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
 (function(factory) {
     'use strict';
 
@@ -39,6 +39,7 @@
             orientation: 'horizontal',
             rangeClass: 'rangeslider',
             disabledClass: 'rangeslider--disabled',
+            activeClass: 'rangeslider--active',
             horizontalClass: 'rangeslider--horizontal',
             verticalClass: 'rangeslider--vertical',
             fillClass: 'rangeslider__fill',
@@ -263,7 +264,7 @@
         var _this = this;
         this.$window.on('resize.' + this.identifier, debounce(function() {
             // Simulate resizeEnd event.
-            delay(function() { _this.update(); }, 300);
+            delay(function() { _this.update(false, false); }, 300);
         }, 20));
 
         this.$document.on(this.startEvent, '#' + this.identifier + ':not(.' + this.options.disabledClass + ')', this.handleDown);
@@ -315,8 +316,13 @@
     };
 
     Plugin.prototype.handleDown = function(e) {
+        e.preventDefault();
         this.$document.on(this.moveEvent, this.handleMove);
         this.$document.on(this.endEvent, this.handleEnd);
+
+        // add active class because Firefox is ignoring
+        // the handle:active pseudo selector because of `e.preventDefault();`
+        this.$range.addClass(this.options.activeClass);
 
         // If we click on the handle don't set the new position
         if ((' ' + e.target.className + ' ').replace(/[\n\t]/g, ' ').indexOf(this.options.handleClass) > -1) {
@@ -346,6 +352,8 @@
         e.preventDefault();
         this.$document.off(this.moveEvent, this.handleMove);
         this.$document.off(this.endEvent, this.handleEnd);
+
+        this.$range.removeClass(this.options.activeClass);
 
         // Ok we're done fire the change event
         this.$element.trigger('change', { origin: this.identifier });
@@ -402,13 +410,14 @@
             rangePos = this.$range[0].getBoundingClientRect()[this.DIRECTION],
             pageCoordinate = 0;
 
-        if (typeof e['page' + ucCoordinate] !== 'undefined') {
-            pageCoordinate = e['client' + ucCoordinate];
-        }
-        else if (typeof e.originalEvent['client' + ucCoordinate] !== 'undefined') {
+        if (typeof e.originalEvent['client' + ucCoordinate] !== 'undefined') {
             pageCoordinate = e.originalEvent['client' + ucCoordinate];
         }
-        else if (e.originalEvent.touches && e.originalEvent.touches[0] && typeof e.originalEvent.touches[0]['client' + ucCoordinate] !== 'undefined') {
+        else if (
+          e.originalEvent.touches &&
+          e.originalEvent.touches[0] &&
+          typeof e.originalEvent.touches[0]['client' + ucCoordinate] !== 'undefined'
+        ) {
             pageCoordinate = e.originalEvent.touches[0]['client' + ucCoordinate];
         }
         else if(e.currentPoint && typeof e.currentPoint[this.COORDINATE] !== 'undefined') {
@@ -479,5 +488,7 @@
             }
         });
     };
+
+    return 'rangeslider.js is available in jQuery context e.g $(selector).rangeslider(options);';
 
 }));
