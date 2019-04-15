@@ -8,7 +8,7 @@ for the Rails asset pipeline.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rangesliderjs_rails'
+gem 'rangesliderjs-rails'
 ```
 
 And then execute:
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rangesliderjs_rails
+    $ gem install rangesliderjs-rails
 
 ## Usage
 
